@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hiren Grover | Full-Stack Software Engineer</title>
+  <meta name="description" content="Portfolio of Hiren Grover - Full-Stack Software Engineer building scalable web apps, robust APIs, and modern digital experiences.">
+  <meta name="author" content="Hiren Grover">
+
+  <!-- Open Graph / Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Hiren Grover | Full-Stack Software Engineer">
+  <meta property="og:description" content="Portfolio of Hiren Grover - Full-Stack Software Engineer. Clean code, scalable systems, and modern UI.">
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/327120724?v=4">
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              900: '#1e3a8a',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300 min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
+
+  <!-- Top Glass Navigation Bar -->
+  <header class="fixed top-0 inset-x-0 z-50 glass border-b border-slate-200/80 dark:border-slate-800/80">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo / Name -->
+      <a href="#hero" class="flex items-center gap-2.5 group">
+        <img src="https://avatars.githubusercontent.com/u/327120724?v=4" alt="Hiren Grover" class="w-9 h-9 rounded-xl object-cover ring-2 ring-blue-500/20 group-hover:scale-105 transition" onerror="this.src=''; this.classList.add('hidden');">
+        <div class="flex flex-col">
+          <span class="font-bold text-slate-900 dark:text-white tracking-tight leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">Hiren Grover</span>
+          <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider">Software Engineer</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600 dark:text-slate-300">
+        <a href="#about" class="nav-link-desktop hover:text-blue-600 dark:hover:text-blue-400 transition">About</a>
+        <a href="#projects" class="nav-link-desktop hover:text-blue-600 dark:hover:text-blue-400 transition">Projects</a>
+        <a href="#skills" class="nav-link-desktop hover:text-blue-600 dark:hover:text-blue-400 transition">Skills</a>
+        <a href="#experience" class="nav-link-desktop hover:text-blue-600 dark:hover:text-blue-400 transition">Experience</a>
+        <a href="#contact" class="nav-link-desktop hover:text-blue-600 dark:hover:text-blue-400 transition">Contact</a>
+      </nav>
+
+      <!-- Right Controls: Theme Toggle & Resume Action -->
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" type="button" aria-label="Toggle theme" class="p-2 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition">
+          <i data-lucide="sun" class="w-5 h-5 hidden dark:block text-amber-400"></i>
+          <i data-lucide="moon" class="w-5 h-5 block dark:hidden text-slate-700"></i>
+        </button>
+
+        <!-- Resume Button -->
+        <a href="#contact" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-sm transition transform hover:-translate-y-0.5">
+          <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+          <span>Get in Touch</span>
+        </a>
+
+        <!-- Mobile Menu Hamburger Button -->
+        <button id="mobile-menu-btn" type="button" aria-label="Open mobile menu" class="md:hidden p-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobile-menu" class="hidden md:hidden glass border-b border-slate-200 dark:border-slate-800 px-6 py-4 space-y-3">
+      <a href="#about" class="nav-link-mobile block py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600">About</a>
+      <a href="#projects" class="nav-link-mobile block py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600">Projects</a>
+      <a href="#skills" class="nav-link-mobile block py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600">Skills</a>
+      <a href="#experience" class="nav-link-mobile block py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600">Experience</a>
+      <a href="#contact" class="nav-link-mobile block py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-blue-600">Contact</a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-grow pt-20">
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative overflow-hidden py-20 lg:py-28 bg-grid-pattern">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="max-w-3xl">
+          
+          <!-- Availability Pill -->
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-semibold mb-6">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>Available for Full-time Roles & Contracts</span>
+          </div>
+
+          <!-- Headline -->
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.1] mb-6">
+            Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-300">Hiren Grover</span>.<br>
+            Full-Stack Software Engineer.
+          </h1>
+
+          <!-- Subheadline -->
+          <p class="text-lg sm:text-xl text-slate-600 dark:text-slate-300 leading-relaxed mb-8 max-w-2xl">
+            I build robust backend systems, scalable cloud services, and clean, high-performance web applications designed with modern architecture and seamless UX.
+          </p>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap items-center gap-4 mb-10">
+            <a href="#projects" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md hover:shadow-blue-500/25 transition transform hover:-translate-y-0.5">
+              <span>View Featured Projects</span>
+              <i data-lucide="arrow-down" class="w-4 h-4"></i>
+            </a>
+
+            <button id="copy-email-btn" type="button" class="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl glass hover:bg-slate-200/50 dark:hover:bg-slate-800/80 font-semibold text-sm text-slate-800 dark:text-slate-200 transition transform hover:-translate-y-0.5">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>Copy Email</span>
+            </button>
+
+            <!-- Social Links -->
+            <div class="flex items-center gap-2 pl-2">
+              <a href="https://github.com/Hiren0810" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" class="p-3 rounded-xl glass hover:text-blue-600 dark:hover:text-blue-400 transition">
+                <i data-lucide="github" class="w-5 h-5"></i>
+              </a>
+              <a href="https://www.linkedin.com/in/hiren-grover-2856a6449" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile" class="p-3 rounded-xl glass hover:text-blue-600 dark:hover:text-blue-400 transition">
+                <i data-lucide="linkedin" class="w-5 h-5"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Quick Tech Stack Ticker -->
+          <div class="pt-6 border-t border-slate-200/80 dark:border-slate-800/80 flex flex-wrap items-center gap-3 text-xs font-mono text-slate-500 dark:text-slate-400">
+            <span class="font-sans font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">Core Stack:</span>
+            <span class="px-2.5 py-1 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">TypeScript</span>
+            <span class="px-2.5 py-1 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">React / Next.js</span>
+            <span class="px-2.5 py-1 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">Node.js</span>
+            <span class="px-2.5 py-1 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">Python</span>
+            <span class="px-2.5 py-1 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">PostgreSQL</span>
+            <span class="px-2.5 py-1 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">Docker</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 border-t border-slate-200/60 dark:border-slate-800/60">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <div class="lg:col-span-7">
+            <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-blue-600 dark:text-blue-400 font-bold mb-3">
+              <i data-lucide="user" class="w-4 h-4"></i>
+              <span>About Me</span>
+            </div>
+            <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6">
+              Engineering solutions with a focus on code quality, scalability & speed.
+            </h2>
+            <div class="space-y-4 text-slate-600 dark:text-slate-300 leading-relaxed text-base">
+              <p>
+                I am a Full-Stack Engineer with a deep passion for building resilient software systems. My background spans architectural design of event-driven backends, microservices, and reactive user interfaces that deliver delightful user experiences.
+              </p>
+              <p>
+                Whether designing high-performance REST/GraphQL APIs, optimizing database queries, or crafting pixel-perfect, accessible component systems, I write clean, maintainable, and self-documenting code.
+              </p>
+              <p>
+                I believe in continuous learning, pragmatic engineering trade-offs, and shipping software that creates tangible real-world impact.
+              </p>
+            </div>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="lg:col-span-5 grid grid-cols-2 gap-4">
+            <div class="glass p-6 rounded-2xl text-center">
+              <div class="text-3xl font-extrabold text-blue-600 dark:text-blue-400 mb-1">3+</div>
+              <div class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Years Experience</div>
+            </div>
+            <div class="glass p-6 rounded-2xl text-center">
+              <div class="text-3xl font-extrabold text-blue-600 dark:text-blue-400 mb-1">20+</div>
+              <div class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Projects Shipped</div>
+            </div>
+            <div class="glass p-6 rounded-2xl text-center">
+              <div class="text-3xl font-extrabold text-blue-600 dark:text-blue-400 mb-1">1,500+</div>
+              <div class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Git Commits</div>
+            </div>
+            <div class="glass p-6 rounded-2xl text-center">
+              <div class="text-3xl font-extrabold text-blue-600 dark:text-blue-400 mb-1">99.9%</div>
+              <div class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Reliability & Uptime</div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 border-t border-slate-200/60 dark:border-slate-800/60 bg-slate-100/40 dark:bg-slate-900/40">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-blue-600 dark:text-blue-400 font-bold mb-3">
+              <i data-lucide="layers" class="w-4 h-4"></i>
+              <span>Featured Work</span>
+            </div>
+            <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              Selected Projects & Case Studies
+            </h2>
+          </div>
+
+          <!-- Project Filter Pills -->
+          <div class="flex flex-wrap gap-2">
+            <button type="button" data-filter="all" class="project-filter-btn px-4 py-1.5 rounded-xl text-xs font-semibold bg-blue-600 text-white shadow-md transition">
+              All
+            </button>
+            <button type="button" data-filter="fullstack" class="project-filter-btn px-4 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition">
+              Full-Stack
+            </button>
+            <button type="button" data-filter="backend" class="project-filter-btn px-4 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition">
+              Backend & APIs
+            </button>
+            <button type="button" data-filter="frontend" class="project-filter-btn px-4 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition">
+              Frontend
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic Projects Grid -->
+        <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Rendered dynamically by main.js -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Skills & Technologies Section -->
+    <section id="skills" class="py-20 border-t border-slate-200/60 dark:border-slate-800/60">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-2xl mx-auto mb-14">
+          <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-blue-600 dark:text-blue-400 font-bold mb-3">
+            <i data-lucide="cpu" class="w-4 h-4"></i>
+            <span>Technical Capabilities</span>
+          </div>
+          <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">
+            Skills & Modern Toolset
+          </h2>
+          <p class="text-slate-600 dark:text-slate-300 text-sm">
+            Technologies and frameworks I work with to architect, build, and deploy production software.
+          </p>
+        </div>
+
+        <!-- Dynamic Skills Grid -->
+        <div id="skills-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Rendered dynamically by main.js -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 border-t border-slate-200/60 dark:border-slate-800/60 bg-slate-100/40 dark:bg-slate-900/40">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-2xl mx-auto mb-14">
+          <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-blue-600 dark:text-blue-400 font-bold mb-3">
+            <i data-lucide="briefcase" class="w-4 h-4"></i>
+            <span>Career Path</span>
+          </div>
+          <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">
+            Experience & Journey
+          </h2>
+          <p class="text-slate-600 dark:text-slate-300 text-sm">
+            A track record of engineering leadership, scalable shipping, and measurable outcomes.
+          </p>
+        </div>
+
+        <!-- Experience Timeline -->
+        <div id="experience-timeline" class="space-y-2">
+          <!-- Rendered dynamically by main.js -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 border-t border-slate-200/60 dark:border-slate-800/60">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-xl mx-auto mb-12">
+          <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-blue-600 dark:text-blue-400 font-bold mb-3">
+            <i data-lucide="mail" class="w-4 h-4"></i>
+            <span>Get In Touch</span>
+          </div>
+          <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">
+            Let's build something great together.
+          </h2>
+          <p class="text-slate-600 dark:text-slate-300 text-sm">
+            Have a project in mind, an open engineering role, or just want to connect? My inbox is always open.
+          </p>
+        </div>
+
+        <!-- Contact Form Box -->
+        <div class="glass rounded-3xl p-8 sm:p-10 shadow-sm border border-slate-200/80 dark:border-slate-800">
+          <form id="contact-form" class="space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label for="form-name" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">Your Name</label>
+                <input type="text" id="form-name" required placeholder="Alex Morgan" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+              </div>
+              <div>
+                <label for="form-email" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">Your Email</label>
+                <input type="email" id="form-email" required placeholder="alex@example.com" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+              </div>
+            </div>
+            <div>
+              <label for="form-message" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">Message</label>
+              <textarea id="form-message" rows="4" required placeholder="Tell me about your project or opportunity..." class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"></textarea>
+            </div>
+            <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md hover:shadow-blue-500/25 transition">
+              <i data-lucide="send" class="w-4 h-4"></i>
+              <span>Send Message</span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="glass border-t border-slate-200/80 dark:border-slate-800/80 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
+      <div>
+        &copy; <span id="current-year"></span> Hiren Grover. Built with clean code & modern web standards.
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="#hero" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/portfolio-data.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
+
