@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antigravity Multi-Market Scanner & Algorithmic Trading Bot</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-[#0b0e14] text-slate-100 font-['Plus_Jakarta_Sans'] min-h-screen antialiased flex flex-col">
+
+    <!-- Top Navigation & Control Bar -->
+    <header class="border-b border-slate-800 bg-[#0f141e]/90 backdrop-blur-md sticky top-0 z-50 px-6 py-3.5">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            
+            <!-- Brand & Status -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                    <i data-lucide="zap" class="w-6 h-6 text-white"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-lg font-bold tracking-tight text-white">ANTIGRAVITY <span class="text-cyan-400">ALGO</span></h1>
+                        <span id="status-badge" class="px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            ACTIVE
+                        </span>
+                        <span id="mode-badge" class="px-2 py-0.5 text-xs font-semibold rounded-full bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+                            PAPER MODE
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-400 font-mono flex items-center gap-2">
+                        <span id="active-markets-count">50+ Markets</span> •
+                        <span id="feed-name">Binance Feed</span> •
+                        <span id="latency-tag">⚡ ~1,200 ms</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Quick Action Controls -->
+            <div class="flex items-center gap-2.5">
+                <button id="btn-scan" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-slate-700 rounded-lg transition-colors shadow-sm">
+                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                    Scan Now
+                </button>
+                <button id="btn-toggle" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 rounded-lg transition-colors shadow-sm">
+                    <i data-lucide="pause" class="w-3.5 h-3.5"></i>
+                    Pause
+                </button>
+                <button id="btn-close-all" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-lg transition-colors shadow-sm">
+                    <i data-lucide="octagon-alert" class="w-3.5 h-3.5"></i>
+                    Close All Positions
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main class="flex-1 p-6 space-y-6 max-w-[1800px] w-full mx-auto">
+
+        <!-- Top Metrics Cards -->
+        <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            
+            <div class="glass-card p-4 rounded-xl border border-slate-800/80 bg-[#121824]/60">
+                <span class="text-xs text-slate-400 font-medium">Total Portfolio Equity</span>
+                <div class="text-xl font-bold font-mono text-white mt-1" id="kpi-equity">$10,000.00</div>
+                <div class="text-xs text-slate-400 mt-1 flex items-center gap-1 font-mono">
+                    <span id="kpi-equity-pct" class="text-emerald-400">+0.00%</span> baseline
+                </div>
+            </div>
+
+            <div class="glass-card p-4 rounded-xl border border-slate-800/80 bg-[#121824]/60">
+                <span class="text-xs text-slate-400 font-medium">Available Cash</span>
+                <div class="text-xl font-bold font-mono text-slate-200 mt-1" id="kpi-cash">$10,000.00</div>
+                <div class="text-xs text-slate-400 mt-1 font-mono">Free Reserves</div>
+            </div>
+
+            <div class="glass-card p-4 rounded-xl border border-slate-800/80 bg-[#121824]/60">
+                <span class="text-xs text-slate-400 font-medium">Open Positions PnL</span>
+                <div class="text-xl font-bold font-mono text-slate-200 mt-1" id="kpi-unrealized">$0.00</div>
+                <div class="text-xs text-slate-400 mt-1 font-mono" id="kpi-unrealized-sub">0 open trades</div>
+            </div>
+
+            <div class="glass-card p-4 rounded-xl border border-slate-800/80 bg-[#121824]/60">
+                <span class="text-xs text-slate-400 font-medium">Realized Net Profit</span>
+                <div class="text-xl font-bold font-mono text-emerald-400 mt-1" id="kpi-realized">$0.00</div>
+                <div class="text-xs text-slate-400 mt-1 font-mono" id="kpi-trades-count">0 closed trades</div>
+            </div>
+
+            <div class="glass-card p-4 rounded-xl border border-slate-800/80 bg-[#121824]/60">
+                <span class="text-xs text-slate-400 font-medium">Win Rate</span>
+                <div class="text-xl font-bold font-mono text-cyan-400 mt-1" id="kpi-winrate">0.0%</div>
+                <div class="text-xs text-slate-400 mt-1 font-mono" id="kpi-win-loss">0W / 0L</div>
+            </div>
+
+            <div class="glass-card p-4 rounded-xl border border-slate-800/80 bg-[#121824]/60">
+                <span class="text-xs text-slate-400 font-medium">Profit Factor</span>
+                <div class="text-xl font-bold font-mono text-purple-400 mt-1" id="kpi-profit-factor">0.00</div>
+                <div class="text-xs text-slate-400 mt-1 font-mono">Risk: 1.5% / trade</div>
+            </div>
+
+        </section>
+
+        <!-- Main Grid: Scanner Matrix (Left) + Positions & Feed (Right) -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- 50+ Multi-Market Real-Time Matrix (8 Cols) -->
+            <div class="lg:col-span-8 flex flex-col space-y-3">
+                <div class="flex flex-wrap items-center justify-between gap-3 bg-[#121824]/60 p-4 rounded-xl border border-slate-800/80">
+                    <div>
+                        <h2 class="text-base font-bold text-white flex items-center gap-2">
+                            <i data-lucide="scan-line" class="w-4 h-4 text-cyan-400"></i>
+                            Live Market Matrix (50+ Simultaneous Pairs)
+                        </h2>
+                        <p class="text-xs text-slate-400">Real-time asynchronous technical indicators & confluence ranking</p>
+                    </div>
+
+                    <!-- Filter Controls -->
+                    <div class="flex items-center gap-2 text-xs">
+                        <input id="search-input" type="text" placeholder="Search pair (e.g. BTC, SOL)..." 
+                            class="bg-[#0b0e14] border border-slate-700 text-slate-200 placeholder-slate-500 rounded-lg px-3 py-1.5 focus:outline-none focus:border-cyan-500 font-mono text-xs w-48">
+                        <select id="signal-filter" class="bg-[#0b0e14] border border-slate-700 text-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-cyan-500 font-mono text-xs">
+                            <option value="ALL">All Signals</option>
+                            <option value="BUY">BUY Only</option>
+                            <option value="SELL">SELL Only</option>
+                            <option value="NEUTRAL">NEUTRAL Only</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Markets Table Container -->
+                <div class="overflow-x-auto rounded-xl border border-slate-800/80 bg-[#121824]/40 backdrop-blur max-h-[720px] overflow-y-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead class="sticky top-0 bg-[#0f141e] border-b border-slate-800 text-slate-400 font-mono uppercase tracking-wider text-[11px] z-10">
+                            <tr>
+                                <th class="p-3">Market</th>
+                                <th class="p-3 text-right">Price</th>
+                                <th class="p-3 text-right">24h Chg</th>
+                                <th class="p-3 text-center">RSI (14)</th>
+                                <th class="p-3 text-center">MACD</th>
+                                <th class="p-3 text-center">Trend Bias</th>
+                                <th class="p-3 text-center">Vol Ratio</th>
+                                <th class="p-3 text-center">Confluence</th>
+                                <th class="p-3 text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="market-table-body" class="divide-y divide-slate-800/60 font-mono text-slate-300">
+                            <tr>
+                                <td colspan="9" class="p-8 text-center text-slate-500 font-sans">
+                                    <div class="inline-block animate-spin mr-2">⚙️</div> Loading 50+ concurrent markets...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Right Column: Active Positions & Live Activity (4 Cols) -->
+            <div class="lg:col-span-4 flex flex-col space-y-6">
+
+                <!-- Active Open Positions -->
+                <div class="bg-[#121824]/60 p-4 rounded-xl border border-slate-800/80 flex flex-col space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i>
+                            Active Open Positions
+                        </h2>
+                        <span id="open-positions-badge" class="px-2 py-0.5 rounded text-[11px] font-mono bg-slate-800 text-slate-300">0 / 5</span>
+                    </div>
+
+                    <div id="positions-list" class="space-y-2.5 max-h-[300px] overflow-y-auto pr-1">
+                        <div class="text-center py-6 text-xs text-slate-500 font-sans">No open positions currently. Scanner is monitoring for high-probability setups.</div>
+                    </div>
+                </div>
+
+                <!-- Actionable Signal Alerts Stream -->
+                <div class="bg-[#121824]/60 p-4 rounded-xl border border-slate-800/80 flex flex-col space-y-3 flex-1">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i data-lucide="bell-ring" class="w-4 h-4 text-cyan-400"></i>
+                            Confluence Signal Feed
+                        </h2>
+                        <span class="text-[11px] text-slate-400 font-mono">Live Stream</span>
+                    </div>
+
+                    <div id="signals-stream" class="space-y-2 max-h-[280px] overflow-y-auto pr-1 text-xs">
+                        <div class="text-center py-6 text-slate-500 font-sans">Awaiting confluence triggers across markets...</div>
+                    </div>
+                </div>
+
+                <!-- Recent Closed Trades -->
+                <div class="bg-[#121824]/60 p-4 rounded-xl border border-slate-800/80 flex flex-col space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i data-lucide="history" class="w-4 h-4 text-indigo-400"></i>
+                            Trade Audit Trail
+                        </h2>
+                        <span class="text-[11px] text-slate-400 font-mono">Recent PnL</span>
+                    </div>
+
+                    <div id="trades-list" class="space-y-2 max-h-[220px] overflow-y-auto pr-1 text-xs">
+                        <div class="text-center py-4 text-slate-500 font-sans">No closed trades recorded yet.</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-[#0f141e] px-6 py-3 text-center text-xs text-slate-500 font-mono">
+        Antigravity Autonomous Trading Architecture • Pure Python Engine • Concurrent 50+ Market Scanning
+    </footer>
+
+    <!-- App JavaScript -->
+    <script src="/static/app.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

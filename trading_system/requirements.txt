@@ -1,0 +1,9 @@
+# Core Trading System Dependencies
+# NOTE: The entire system is built to run 100% out-of-the-box on Python 3.9+ standard library with ZERO required external packages!
+
+# Optional Enhancements:
+# aiohttp>=3.8.0         # Optional async HTTP networking
+# ccxt>=4.0.0            # Optional live exchange connector (Binance, Bybit, OKX, Kraken, Coinbase)
+# pandas>=1.5.0          # Optional dataframe manipulation
+# numpy>=1.22.0          # Optional vectorized operations
+# pytest>=7.0.0          # Optional testing framework

@@ -36,3 +36,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Python & Databases
+__pycache__/
+*.py[cod]
+*$py.class
+*.db
+*.sqlite3
+trading_system/data/*.db
+data/
+

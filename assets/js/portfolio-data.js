@@ -58,6 +58,18 @@ const portfolioData = {
 
   projects: [
     {
+      id: "multi-market-trading-system",
+      title: "Multi-Market Algorithmic Trading System & Scanner",
+      description: "High-throughput asynchronous algorithmic trading engine in Python monitoring 50+ concurrent markets with pure-Python vector indicator processing, ATR mathematical risk management, and a real-time glassmorphic command center.",
+      category: "backend",
+      image: "assets/images/trading.png",
+      gradient: "from-emerald-600 to-cyan-900",
+      tags: ["Python 3.9+", "AsyncIO", "Algorithmic Trading", "Risk Engine", "SQLite", "Real-Time Dashboard"],
+      liveUrl: "http://localhost:8000",
+      githubUrl: "https://github.com/Hiren0810/portfolio/tree/main/trading_system",
+      featured: true
+    },
+    {
       id: "cloud-collaboration-suite",
       title: "CloudFlow - Real-Time Collaboration Suite",
       description: "An enterprise-grade workspace with real-time collaborative document editing, team audio rooms, and granular role-based access control.",
