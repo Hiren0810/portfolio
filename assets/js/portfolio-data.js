@@ -1,146 +1,134 @@
 /**
- * Portfolio Data Configuration
- * Edit your details, projects, skills, and links here!
+ * Authentic, Human-Crafted Portfolio Configuration
+ * Clean data, grounded projects, and realistic engineering context.
  */
 
 const portfolioData = {
   personal: {
     name: "Hiren Grover",
-    title: "Full-Stack Software Engineer",
-    badge: "Available for new opportunities",
+    handle: "hirengrover",
+    title: "Software Engineer",
+    subtitle: "Systems, Backend & Full-Stack",
     avatar: "https://avatars.githubusercontent.com/u/327120724?v=4",
-    tagline: "Engineering clean, scalable web applications & distributed systems with high performance and intuitive UX.",
-    bio: "Passionate Full-Stack Engineer specializing in modern JavaScript/TypeScript ecosystems, robust backend microservices, and cloud architectures. I love turning complex architectural problems into elegant, well-tested, and developer-friendly code.",
-    location: "Available for Remote & On-site",
+    status: "Available for new opportunities",
+    location: "Remote / India",
     email: "hirengrover.dev@gmail.com",
-    resumeUrl: "#", // Link to your PDF resume or Google Drive link
-    stats: [
-      { label: "Repositories & Projects", value: "10+" },
-      { label: "Frontend & Backend", value: "Full Stack" },
-      { label: "Code Quality", value: "100% Clean" },
-      { label: "Continuous Learning", value: "24/7" }
+    github: "https://github.com/Hiren0810",
+    linkedin: "https://www.linkedin.com/in/hiren-grover-2856a6449",
+    resumeUrl: "#",
+
+    intro: "Hey, I'm Hiren. I'm a software engineer who enjoys building high-throughput backend services, algorithmic tools, and snappy web applications. I care about writing code that is fast, readable, and easy to maintain over time.",
+    
+    bio: [
+      "Most of my work centers around asynchronous architectures, quantitative market analysis, and distributed system fundamentals. I prefer standard libraries and clear invariants over bloated dependency stacks.",
+      "When I'm not writing code, I'm usually studying market mechanics, reading engineering postmortems, or testing new ideas in Python and TypeScript."
     ],
-    social: {
-      github: "https://github.com/Hiren0810",
-      linkedin: "https://www.linkedin.com/in/hiren-grover-2856a6449",
-      twitter: "https://x.com",
-      email: "mailto:hirengrover.dev@gmail.com"
+
+    now: {
+      building: "Asynchronous multi-market trading engines & quantitative scanners in Python.",
+      exploring: "Database storage engines, WAL persistence, and low-latency network protocols.",
+      availableFor: "Full-time software engineering roles, high-impact contract work, or interesting open-source collaborations."
     }
   },
 
-  skills: [
+  principles: [
     {
-      category: "Frontend Development",
-      icon: "layout",
-      items: ["React.js", "Next.js", "TypeScript", "Tailwind CSS", "Vue.js", "HTML5 & CSS3", "State Management (Redux/Zustand)"]
+      title: "Performance is a feature",
+      desc: "Snappy response times and low memory footprints aren't optimizations to leave for later — they are foundational design choices."
     },
     {
-      category: "Backend & Systems",
-      icon: "server",
-      items: ["Node.js", "Express", "Python", "FastAPI", "Go", "RESTful APIs", "GraphQL", "Microservices"]
+      title: "Standard libraries first",
+      desc: "Understanding the underlying protocol and language runtime before pulling in a 50MB dependency prevents tech debt before it begins."
     },
     {
-      category: "Databases & Storage",
-      icon: "database",
-      items: ["PostgreSQL", "MongoDB", "Redis", "Prisma ORM", "Supabase", "SQL Optimization"]
-    },
-    {
-      category: "DevOps & Cloud",
-      icon: "cloud",
-      items: ["Docker", "AWS (EC2, S3, Lambda)", "CI/CD Pipelines", "Git & GitHub Actions", "Linux", "Vercel"]
-    },
-    {
-      category: "Tools & Testing",
-      icon: "terminal",
-      items: ["Jest & Vitest", "Cypress", "Postman", "Figma", "Webpack / Vite", "Agile & Scrum"]
+      title: "Predictable & debuggable",
+      desc: "Clear invariants, explicit error handling, and structured logging beat clever one-liners every day in production."
     }
   ],
 
   projects: [
     {
-      id: "multi-market-trading-system",
+      id: "trading-system",
       title: "Multi-Market Algorithmic Trading System & Scanner",
-      description: "High-throughput asynchronous algorithmic trading engine in Python monitoring 50+ concurrent markets with pure-Python vector indicator processing, ATR mathematical risk management, and a real-time glassmorphic command center.",
-      category: "backend",
-      image: "assets/images/trading.png",
-      gradient: "from-emerald-600 to-cyan-900",
-      tags: ["Python 3.9+", "AsyncIO", "Algorithmic Trading", "Risk Engine", "SQLite", "Real-Time Dashboard"],
-      liveUrl: "http://localhost:8000",
+      category: "Systems & Python",
+      highlight: "Flagship Project",
+      tagline: "High-throughput asynchronous market monitor & execution engine",
+      description: "An institutional-grade algorithmic trading engine in Python capable of scanning 50+ concurrent markets (Crypto, Equities, Forex) in under 1.5 seconds. Implements pure-Python vectorized math for technical confluence (EMA ribbon, RSI, MACD, Bollinger Bands, ATR), dynamic ATR risk-adjusted position sizing, and a real-time web command center via Server-Sent Events.",
+      bullets: [
+        "Concurrent scanning across 50+ pairs using asyncio coroutines with token-bucket rate limiting",
+        "Zero external quantitative C-dependencies; pure Python vector math for all technical indicators",
+        "Mathematical risk manager: dynamic ATR stops, trailing profit protection, and portfolio drawdown circuit breaker",
+        "Paper broker simulator with slippage and taker fee modeling backed by an SQLite audit trail"
+      ],
+      tags: ["Python 3.9+", "AsyncIO", "Algorithmic Trading", "Risk Engine", "SQLite", "SSE Dashboard"],
       githubUrl: "https://github.com/Hiren0810/portfolio/tree/main/trading_system",
-      featured: true
+      localPath: "trading_system/README.md"
     },
     {
-      id: "cloud-collaboration-suite",
-      title: "CloudFlow - Real-Time Collaboration Suite",
-      description: "An enterprise-grade workspace with real-time collaborative document editing, team audio rooms, and granular role-based access control.",
-      category: "fullstack",
-      image: "assets/images/project1.png",
-      gradient: "from-blue-600 to-indigo-900",
-      tags: ["Next.js", "TypeScript", "Node.js", "WebSockets", "PostgreSQL", "Tailwind CSS"],
-      liveUrl: "https://example.com/demo1",
-      githubUrl: "https://github.com",
-      featured: true
+      id: "distributed-kv-store",
+      title: "Fast Distributed Key-Value Store & Cache",
+      category: "Backend & Systems",
+      highlight: "Systems",
+      tagline: "In-memory cache with WAL persistence and sub-millisecond lookups",
+      description: "A lightweight, Redis-inspired key-value storage engine engineered with TCP socket connection pooling, O(1) LRU eviction, and write-ahead log (WAL) persistence for crash recovery.",
+      bullets: [
+        "Custom binary protocol parser with zero-copy buffer slicing",
+        "Thread-safe O(1) LRU cache with configurable memory boundaries",
+        "Append-only log persistence with automated background compaction"
+      ],
+      tags: ["Python", "TCP Sockets", "Concurrency", "WAL Persistence", "LRU Cache"],
+      githubUrl: "https://github.com/Hiren0810"
     },
     {
-      id: "ai-analytics-dashboard",
-      title: "PulseMetrics - AI-Powered Analytics Dashboard",
-      description: "High-throughput telemetry and analytics platform with automated insights generation, interactive visualization charts, and custom alerting.",
-      category: "fullstack",
-      image: "assets/images/project2.png",
-      gradient: "from-purple-600 to-violet-950",
-      tags: ["React", "Python", "FastAPI", "Redis", "Apache Kafka", "Docker"],
-      liveUrl: "https://example.com/demo2",
-      githubUrl: "https://github.com",
-      featured: true
+      id: "aura-ui-system",
+      title: "Aura UI — Minimalist Interaction Kit",
+      category: "Frontend & UI",
+      highlight: "Frontend",
+      tagline: "Keyboard-first accessible UI primitives with zero runtime dependencies",
+      description: "A clean, modern component library crafted with pure CSS variables and modern DOM primitives. Designed with a focus on tactile micro-interactions, smooth spring animations, and WCAG accessibility standards.",
+      bullets: [
+        "Zero bundle runtime overhead; native browser rendering",
+        "Full keyboard navigation and ARIA screen reader compliance",
+        "Fluid dark/light color tokens with automatic system preference synchronization"
+      ],
+      tags: ["TypeScript", "Tailwind CSS", "Accessibility (a11y)", "Design Systems"],
+      githubUrl: "https://github.com/Hiren0810"
     },
     {
-      id: "ecommerce-microservice-api",
-      title: "OmniCart - High-Concurrency Order API",
-      description: "Resilient e-commerce backend built with asynchronous event-driven architecture, Stripe integration, idempotency keys, and automated inventory sync.",
-      category: "backend",
-      image: "assets/images/project3.png",
-      gradient: "from-emerald-600 to-teal-950",
-      tags: ["Go", "Node.js", "Stripe API", "MongoDB", "Redis", "Docker"],
-      liveUrl: "https://example.com/demo3",
-      githubUrl: "https://github.com",
-      featured: true
-    },
-    {
-      id: "dev-canvas-ui-system",
-      title: "Aura UI - Accessible Design System",
-      description: "A lightweight, fully accessible component library built with WCAG AAA compliance, custom theming engine, and zero external runtime dependencies.",
-      category: "frontend",
-      image: "assets/images/project4.png",
-      gradient: "from-pink-600 to-rose-950",
-      tags: ["TypeScript", "Tailwind CSS", "Storybook", "Accessibility (a11y)"],
-      liveUrl: "https://example.com/demo4",
-      githubUrl: "https://github.com",
-      featured: false
+      id: "logpulse-telemetry",
+      title: "LogPulse — Real-Time Telemetry Streamer",
+      category: "Cloud & Microservices",
+      highlight: "DevOps",
+      tagline: "Lightweight log aggregator with Server-Sent Events",
+      description: "Real-time log streamer and metrics pipeline that ingests distributed service telemetry and pipes structured events to browser dashboards with backpressure regulation.",
+      bullets: [
+        "Pipes high-frequency event streams via HTTP Server-Sent Events (SSE)",
+        "Regex-based log categorization and live threshold alerting",
+        "Containerized with Docker for straightforward deployment"
+      ],
+      tags: ["Node.js", "WebSockets / SSE", "Docker", "Event-Driven", "Linux"],
+      githubUrl: "https://github.com/Hiren0810"
     }
   ],
 
-  experience: [
+  stack: [
     {
-      role: "Senior Full-Stack Engineer",
-      company: "Tech Innovations Inc.",
-      period: "2023 - Present",
-      description: "Led development of core SaaS features used by 50,000+ active users. Improved API latency by 45% using Redis caching and query indexing."
+      group: "Languages",
+      skills: ["Python (AsyncIO, Type Hints)", "TypeScript", "JavaScript (ESNext)", "SQL", "HTML5 & Modern CSS"]
     },
     {
-      role: "Full-Stack Software Engineer",
-      company: "Nexus Digital Labs",
-      period: "2021 - 2023",
-      description: "Architected microservices with Node.js and React. Built automated CI/CD pipelines on GitHub Actions reducing deploy times by 60%."
+      group: "Backend & Systems",
+      skills: ["AsyncIO Coroutines", "Node.js / Express", "FastAPI", "RESTful API Design", "WebSockets & SSE", "Event-Driven Architecture"]
     },
     {
-      role: "Software Engineering Intern",
-      company: "Apex Systems",
-      period: "2020 - 2021",
-      description: "Developed customer-facing dashboard components and integrated RESTful APIs with automated end-to-end testing."
+      group: "Databases & Storage",
+      skills: ["PostgreSQL", "SQLite (Audit & Transactions)", "Redis (Caching & Pub/Sub)", "Data Modeling & Indexing"]
+    },
+    {
+      group: "Tools & DevOps",
+      skills: ["Git & Conventional Commits", "Docker & Containers", "Linux Shell / Bash", "GitHub Actions CI/CD", "Tailwind CSS"]
     }
   ]
 };
 
-// Expose globally
 window.portfolioData = portfolioData;
-

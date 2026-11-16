@@ -1,28 +1,18 @@
 /**
- * Portfolio Main Interactive Scripts
+ * Main Client Script - Minimalist & Responsive
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Theme Initializer & Toggle
   initTheme();
+  renderContent();
+  setupInteractivity();
+  setupKeyboardShortcuts();
 
-  // 2. Render Dynamic Data
-  renderSkills();
-  renderProjects('all');
-  renderExperience();
-
-  // 3. Setup Navigation & Interactivity
-  setupNavigation();
-  setupProjectFilters();
-  setupContactForm();
-  setupEmailCopy();
-
-  // 4. Initialize Lucide Icons
   if (window.lucide) {
     window.lucide.createIcons();
   }
 
-  // Set current year in footer
+  // Set current year
   const yearEl = document.getElementById('current-year');
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
@@ -30,13 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Dark / Light Theme Manager
+ * Clean Theme Toggle (Light / Dark)
  */
 function initTheme() {
-  const themeToggleBtn = document.getElementById('theme-toggle');
-  const themeToggleMobileBtn = document.getElementById('theme-toggle-mobile');
-
-  // Check saved preference or system preference
+  const toggleBtn = document.getElementById('theme-toggle');
   const savedTheme = localStorage.getItem('theme');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -46,7 +33,7 @@ function initTheme() {
     document.documentElement.classList.remove('dark');
   }
 
-  function toggleTheme() {
+  function toggle() {
     const isDark = document.documentElement.classList.toggle('dark');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
     if (window.lucide) {
@@ -54,259 +41,150 @@ function initTheme() {
     }
   }
 
-  if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
-  if (themeToggleMobileBtn) themeToggleMobileBtn.addEventListener('click', toggleTheme);
-}
-
-/**
- * Mobile Navigation Drawer Toggle
- */
-function setupNavigation() {
-  const menuBtn = document.getElementById('mobile-menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const navLinks = document.querySelectorAll('.nav-link-mobile');
-
-  if (menuBtn && mobileMenu) {
-    menuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-
-    navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
-      });
-    });
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', toggle);
   }
-
-  // Active section indicator on scroll
-  const sections = document.querySelectorAll('section[id]');
-  const desktopLinks = document.querySelectorAll('.nav-link-desktop');
-
-  window.addEventListener('scroll', () => {
-    let current = '';
-    const scrollY = window.pageYOffset;
-
-    sections.forEach(section => {
-      const sectionHeight = section.offsetHeight;
-      const sectionTop = section.offsetTop - 120;
-      const sectionId = section.getAttribute('id');
-
-      if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-        current = sectionId;
-      }
-    });
-
-    desktopLinks.forEach(link => {
-      link.classList.remove('text-blue-600', 'dark:text-blue-400', 'font-semibold');
-      if (link.getAttribute('href') === `#${current}`) {
-        link.classList.add('text-blue-600', 'dark:text-blue-400', 'font-semibold');
-      }
-    });
-  });
 }
 
 /**
- * Render Skills Grid
+ * Render dynamic portfolio content
  */
-function renderSkills() {
-  const container = document.getElementById('skills-grid');
-  if (!container || !window.portfolioData) return;
+function renderContent() {
+  const data = window.portfolioData;
+  if (!data) return;
 
-  const { skills } = window.portfolioData;
-
-  container.innerHTML = skills.map(group => `
-    <div class="glass p-6 rounded-2xl shadow-sm hover:shadow-md transition duration-300">
-      <div class="flex items-center gap-3 mb-4">
-        <div class="p-2.5 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400">
-          <i data-lucide="${group.icon}" class="w-5 h-5"></i>
-        </div>
-        <h3 class="font-bold text-lg text-slate-900 dark:text-white">${group.category}</h3>
-      </div>
-      <div class="flex flex-wrap gap-2">
-        ${group.items.map(item => `
-          <span class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700/80 hover:border-blue-500/50 transition">
-            ${item}
+  // Render Projects
+  const projectsContainer = document.getElementById('projects-list');
+  if (projectsContainer && data.projects) {
+    projectsContainer.innerHTML = data.projects.map((p, idx) => `
+      <article class="project-card group p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800/90 bg-white dark:bg-zinc-900/60 hover:border-zinc-300 dark:hover:border-zinc-700/80 transition shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-2">
+          <div class="flex items-center gap-2.5">
+            <h3 class="text-lg font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">
+              ${p.title}
+            </h3>
+          </div>
+          <span class="text-xs font-mono text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">
+            ${p.category}
           </span>
-        `).join('')}
-      </div>
-    </div>
-  `).join('');
-}
-
-/**
- * Render Project Cards with Filter
- */
-function renderProjects(filter = 'all') {
-  const container = document.getElementById('projects-grid');
-  if (!container || !window.portfolioData) return;
-
-  const { projects } = window.portfolioData;
-  const filtered = filter === 'all' 
-    ? projects 
-    : projects.filter(p => p.category === filter);
-
-  if (filtered.length === 0) {
-    container.innerHTML = `
-      <div class="col-span-full py-12 text-center text-slate-500 dark:text-slate-400">
-        No projects found in this category.
-      </div>
-    `;
-    return;
-  }
-
-  container.innerHTML = filtered.map(project => `
-    <article class="glass rounded-2xl overflow-hidden shadow-sm card-hover flex flex-col justify-between border border-slate-200/80 dark:border-slate-800">
-      <div>
-        <!-- Visual Banner / Header -->
-        <div class="h-48 w-full bg-gradient-to-br ${project.gradient} p-6 relative flex flex-col justify-end text-white overflow-hidden group">
-          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition"></div>
-          <div class="absolute top-4 right-4 z-10 flex gap-2">
-            ${project.featured ? `
-              <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-white/20 backdrop-blur-md text-white border border-white/30">
-                Featured
-              </span>
-            ` : ''}
-          </div>
-          <div class="relative z-10">
-            <span class="text-xs font-mono uppercase tracking-wider text-blue-200">${project.category}</span>
-            <h3 class="text-xl font-bold mt-1 text-white leading-tight drop-shadow-sm">${project.title}</h3>
-          </div>
         </div>
 
-        <!-- Content -->
-        <div class="p-6">
-          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-5">
-            ${project.description}
-          </p>
+        <p class="text-xs font-mono text-blue-600 dark:text-blue-400 font-medium mb-3">
+          ${p.tagline}
+        </p>
 
-          <!-- Tags -->
-          <div class="flex flex-wrap gap-1.5 mb-6">
-            ${project.tags.map(tag => `
-              <span class="px-2.5 py-1 text-xs font-mono rounded-md bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300">
-                ${tag}
+        <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4">
+          ${p.description}
+        </p>
+
+        ${p.bullets ? `
+          <ul class="space-y-1.5 mb-5 pl-4 border-l-2 border-zinc-100 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+            ${p.bullets.map(bullet => `
+              <li class="flex items-start gap-2">
+                <span class="text-blue-500 select-none">•</span>
+                <span>${bullet}</span>
+              </li>
+            `).join('')}
+          </ul>
+        ` : ''}
+
+        <div class="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/60">
+          <div class="flex flex-wrap gap-1.5">
+            ${p.tags.map(t => `
+              <span class="px-2 py-0.5 text-[11px] font-mono rounded bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200/50 dark:border-zinc-700/50">
+                ${t}
               </span>
             `).join('')}
           </div>
+
+          <a href="${p.githubUrl}" target="_blank" rel="noopener noreferrer" 
+             class="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-zinc-700 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 transition">
+            <span>View Source</span>
+            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+      </article>
+    `).join('');
+  }
+
+  // Render Stack Groups
+  const stackContainer = document.getElementById('stack-list');
+  if (stackContainer && data.stack) {
+    stackContainer.innerHTML = data.stack.map(group => `
+      <div class="p-5 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-50/50 dark:bg-zinc-900/40">
+        <h4 class="text-xs font-mono font-bold uppercase tracking-wider text-zinc-900 dark:text-zinc-200 mb-3 flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+          ${group.group}
+        </h4>
+        <div class="flex flex-wrap gap-2">
+          ${group.skills.map(s => `
+            <span class="px-2.5 py-1 text-xs font-mono rounded-lg bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700/80 shadow-2xs">
+              ${s}
+            </span>
+          `).join('')}
         </div>
       </div>
+    `).join('');
+  }
 
-      <!-- Links Footer -->
-      <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-slate-100 dark:border-slate-800/60">
-        <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" 
-           class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition">
-          <i data-lucide="github" class="w-4 h-4"></i>
-          <span>Source Code</span>
-        </a>
-        <a href="${project.liveUrl}" target="_blank" rel="noopener noreferrer" 
-           class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition">
-          <span>Live Demo</span>
-          <i data-lucide="external-link" class="w-4 h-4"></i>
-        </a>
+  // Render Principles
+  const principlesContainer = document.getElementById('principles-list');
+  if (principlesContainer && data.principles) {
+    principlesContainer.innerHTML = data.principles.map(p => `
+      <div class="p-5 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-900/40">
+        <h4 class="text-sm font-bold text-zinc-900 dark:text-zinc-100 mb-1.5">
+          ${p.title}
+        </h4>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+          ${p.desc}
+        </p>
       </div>
-    </article>
-  `).join('');
-
-  if (window.lucide) {
-    window.lucide.createIcons();
+    `).join('');
   }
 }
 
 /**
- * Filter Buttons Listener
+ * Copy email helper & notifications
  */
-function setupProjectFilters() {
-  const filterBtns = document.querySelectorAll('.project-filter-btn');
-  filterBtns.forEach(btn => {
+function setupInteractivity() {
+  const copyBtns = document.querySelectorAll('.copy-email-trigger');
+  copyBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      filterBtns.forEach(b => {
-        b.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
-        b.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+      const email = window.portfolioData?.personal?.email || 'hirengrover.dev@gmail.com';
+      navigator.clipboard.writeText(email).then(() => {
+        showToast('Copied email to clipboard: ' + email);
+      }).catch(() => {
+        showToast('Error copying email.');
       });
-
-      btn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
-      btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
-
-      const filter = btn.getAttribute('data-filter') || 'all';
-      renderProjects(filter);
     });
   });
 }
 
 /**
- * Render Experience Timeline
+ * Tactile developer keyboard shortcuts
  */
-function renderExperience() {
-  const container = document.getElementById('experience-timeline');
-  if (!container || !window.portfolioData) return;
+function setupKeyboardShortcuts() {
+  document.addEventListener('keydown', (e) => {
+    // Ignore when typing inside input or textarea
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
-  const { experience } = window.portfolioData;
-
-  container.innerHTML = experience.map((item, index) => `
-    <div class="relative pl-8 pb-8 ${index === experience.length - 1 ? '' : 'border-l-2 border-slate-200 dark:border-slate-800'}">
-      <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-600 ring-4 ring-white dark:ring-slate-900"></div>
-      <div class="glass p-5 rounded-xl shadow-sm">
-        <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
-          <h4 class="font-bold text-base text-slate-900 dark:text-white">${item.role}</h4>
-          <span class="text-xs font-mono font-medium px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400">
-            ${item.period}
-          </span>
-        </div>
-        <div class="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2">
-          ${item.company}
-        </div>
-        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-          ${item.description}
-        </p>
-      </div>
-    </div>
-  `).join('');
-}
-
-/**
- * Copy Email to Clipboard helper
- */
-function setupEmailCopy() {
-  const copyBtn = document.getElementById('copy-email-btn');
-  if (!copyBtn) return;
-
-  copyBtn.addEventListener('click', () => {
-    const email = window.portfolioData?.personal?.email || 'hiren.dev@example.com';
-    navigator.clipboard.writeText(email).then(() => {
-      showToast('Email address copied to clipboard!', 'success');
-    }).catch(() => {
-      showToast('Could not copy email.', 'error');
-    });
-  });
-}
-
-/**
- * Contact Form Handler
- */
-function setupContactForm() {
-  const form = document.getElementById('contact-form');
-  if (!form) return;
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const nameInput = document.getElementById('form-name');
-    const emailInput = document.getElementById('form-email');
-    const messageInput = document.getElementById('form-message');
-
-    if (!nameInput.value.trim() || !emailInput.value.trim() || !messageInput.value.trim()) {
-      showToast('Please fill out all fields.', 'error');
-      return;
+    if (e.key === 't' || e.key === 'T') {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      if (window.lucide) window.lucide.createIcons();
+      showToast(`Switched to ${isDark ? 'Dark' : 'Light'} theme`);
+    } else if (e.key === 'c' || e.key === 'C') {
+      const email = window.portfolioData?.personal?.email || 'hirengrover.dev@gmail.com';
+      navigator.clipboard.writeText(email);
+      showToast('Copied email to clipboard!');
     }
-
-    // Submit feedback
-    showToast('Thank you! Your message has been sent.', 'success');
-    form.reset();
   });
 }
 
 /**
- * Toast Notification system
+ * Clean minimal toast notification
  */
-function showToast(message, type = 'info') {
+function showToast(message) {
   let container = document.getElementById('toast-container');
   if (!container) {
     container = document.createElement('div');
@@ -315,10 +193,9 @@ function showToast(message, type = 'info') {
   }
 
   const toast = document.createElement('div');
-  const bgColor = type === 'success' ? 'bg-emerald-600 text-white' : type === 'error' ? 'bg-rose-600 text-white' : 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900';
-
-  toast.className = `toast px-4 py-3 rounded-xl shadow-lg flex items-center gap-3 text-sm font-medium ${bgColor}`;
+  toast.className = 'toast px-4 py-2.5 rounded-xl shadow-lg border border-zinc-700/60 bg-zinc-900 text-zinc-100 dark:bg-zinc-100 dark:text-zinc-900 dark:border-zinc-300 text-xs font-mono font-medium flex items-center gap-2';
   toast.innerHTML = `
+    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
     <span>${message}</span>
   `;
 
@@ -326,9 +203,8 @@ function showToast(message, type = 'info') {
 
   setTimeout(() => {
     toast.style.opacity = '0';
-    toast.style.transform = 'translateY(8px)';
-    toast.style.transition = 'all 0.2s ease-in';
+    toast.style.transform = 'translateY(6px)';
+    toast.style.transition = 'all 0.18s ease-in';
     setTimeout(() => toast.remove(), 200);
-  }, 3200);
+  }, 2400);
 }
-
